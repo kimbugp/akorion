@@ -7,6 +7,7 @@ This is an simple app to create items of Akorion that can be purchased by farmer
 - Clone the application
 
 `git clone https://github.com/kimbugp/akorion.git`
+- Run `cd akorion` to move to the directory
 
 - Create a .env file using the .env.example file
 - Install dependencies with
