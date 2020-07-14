@@ -54,7 +54,7 @@ function handleSubmit(event) {
     }).then(function (response) {
         return response.json();
     }).then(function (data) {
-        btn.value = 'Add Item'
+        btn.innerText = 'Add Item'
         let tableElement = document.getElementById('item_table')
         let newRow = createChildNodes(data)
         tableElement.appendChild(newRow)
