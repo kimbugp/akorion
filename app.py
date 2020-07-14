@@ -4,7 +4,6 @@ from flask import Flask, Response, render_template, request
 from flask.json import jsonify
 from flask_mail import Mail, Message
 
-'martinkatamba@akorion.com'
 app = Flask(__name__)
 
 app.config.update(dict(
@@ -18,7 +17,7 @@ app.config.update(dict(
 ))
 
 mail = Mail(app)
-DEFAULT_EMAIL = 'kimbsimon2@gmail.com'
+DEFAULT_EMAIL = os.environ.get("FROM_MAIL", 'martinkatamba@akorion.com')
 
 
 class ItemStorage():
@@ -41,7 +40,7 @@ class ItemStorage():
 
 
 def send_mail(subject, message, receipient):
-    msg = Message(subject=subject, message=message,
+    msg = Message(subject=subject, body=message,
                   sender="info@email.com", recipients=[receipient])
     mail.send(msg)
 
@@ -63,7 +62,7 @@ def add_item():
         try:
             send_mail('New Item created', message, DEFAULT_EMAIL)
         except Exception as err:
-            raise err
+            print(err)
         return jsonify(save_item)
     return jsonify(storage.get_all())
 
