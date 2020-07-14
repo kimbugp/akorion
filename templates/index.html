@@ -1,0 +1,101 @@
+<html>
+<title>Item List</title>
+
+<body>
+    <div id='app'>
+        <div class='container'>
+            <h1>Item List</h1>
+            <div>
+                <button onclick="handleShowForm">Add Item</button>
+            </div>
+            <table style="width:20%" id='item_table'>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                </tr>
+            </table>
+            <form onsubmit="return handleSubmit(event)" action="#">
+                <label for="name">Name</label>
+                <input type="text" name='name' id='name'>
+                <label for="price">Price</label>
+                <input type="number" name='price' id='price'>
+                <button type="submit">Add Item</button>
+            </form>
+        </div>
+
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<!-- <script src='./index.js'></script> -->
+<script>
+
+    const url = 'http://127.0.0.1:5000/items';
+
+    function populateItems(items) {
+        let tableElement = document.getElementById('item_table')
+        items.forEach(element => {
+            let sampleRow = createChildNodes(element)
+            tableElement.appendChild(sampleRow)
+        });
+
+    }
+
+    function getItems() {
+        // const url = 'http://127.0.0.1:5000/items';
+
+        fetch(url, {
+            mode: 'no-cors',
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+            },
+        })
+            .then(response => {
+                return response.json()
+            })
+            .then(data => {
+                populateItems(data)
+            }).catch(error => {
+                console.log(error)
+            })
+    }
+    function createChildNodes(item) {
+        let row = document.createElement('tr')
+        row.innerHTML = `<td>${item.id}</td>
+    <td>${item.name}</td>
+    <td>${item.price}</td>`
+        return row
+    }
+
+    function handleSubmit(event) {
+        //todo
+        event.preventDefault()
+        const data = {
+            name: event.currentTarget.name.value,
+            price: event.currentTarget.price.value
+        }
+        fetch(url, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+            },
+            body: JSON.stringify(data)
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            let tableElement = document.getElementById('item_table')
+            let newRow = createChildNodes(data)
+            tableElement.appendChild(newRow)
+        });
+    }
+    function handleShowForm(event) {
+        //todo
+    }
+    getItems()
+</script>
+
+
+</html>
