@@ -42,6 +42,7 @@ function handleSubmit(event) {
         name: event.currentTarget.name.value,
         price: event.currentTarget.price.value
     }
+    // add loading to button
     const btn = document.getElementById('submit-btn')
     btn.innerText='Loading...'
     fetch(url, {
@@ -58,6 +59,8 @@ function handleSubmit(event) {
         let tableElement = document.getElementById('item_table')
         let newRow = createChildNodes(data)
         tableElement.appendChild(newRow)
+        // clear form
+        event.target.reset()
     });
 }
 getItems()
